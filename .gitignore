@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / tool metadata
+.claude/
+.playwright-mcp/
+.idea/
+.vscode/
+*.swp
+
+# Data pipeline (not part of the deployed site)
+*.xlsx
+*.csv
+scripts/
+collect_filmography.py
+fill_missing_years.py
+find_missing_films.py
+
+# Generated SVG placeholder posters (films use the in-browser CSS
+# placeholder when no real poster URL is present)
+assets/posters/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+
+# Logs / temp screenshots
+*.log
+*.png
+*.jpg
+*.jpeg
+!assets/**/*.png
+!assets/**/*.jpg
+!assets/**/*.jpeg
