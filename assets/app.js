@@ -47,6 +47,7 @@
       applyFilter();
 
       observeSentinel();
+      openWelcome();
     } catch (err) {
       els.grid.innerHTML = `<p class="empty">Could not load films data. (${escapeHtml(err.message)})</p>`;
       els.count.textContent = "—";
@@ -403,6 +404,80 @@
     modalEl.remove();
     modalEl = null;
     document.body.classList.remove("modal-open");
+  }
+
+  // ------------------------------------------------------------------
+  // Welcome notice (shown on every page load)
+  // ------------------------------------------------------------------
+  let welcomeEl = null;
+
+  function openWelcome() {
+    if (welcomeEl) return;
+    const root = document.getElementById("modal-root") || document.body;
+    const backdrop = document.createElement("div");
+    backdrop.className = "modal-backdrop welcome-backdrop";
+    backdrop.setAttribute("role", "dialog");
+    backdrop.setAttribute("aria-modal", "true");
+    backdrop.setAttribute("aria-labelledby", "welcome-title");
+
+    const card = document.createElement("div");
+    card.className = "modal-card welcome-card";
+    card.innerHTML = `
+      <button type="button" class="welcome-close" aria-label="Close">×</button>
+      <h2 id="welcome-title" class="welcome-title">
+        ஒரு குறிப்பு <span class="welcome-title-en">· A note</span>
+      </h2>
+      <p class="welcome-body">
+        This filmography is still a work in progress, and it isn't perfect yet:
+      </p>
+      <ul class="welcome-list">
+        <li>A handful of films appear twice under different transliterations.</li>
+        <li>Some films don't have a poster yet.</li>
+        <li>A few entries turn out to be soundtrack albums rather than films.</li>
+        <li>For a few films the release year may be off by a year or two.</li>
+      </ul>
+      <p class="welcome-body">
+        If you spot any of these — or know about a film that's missing —
+        I'd love your help. Drop me a note at
+        <a href="mailto:mathumou@proton.me">mathumou@proton.me</a>
+        or message me on
+        <a href="https://facebook.com/mathumou" target="_blank" rel="noopener">facebook.com/mathumou</a>.
+        Thank you!
+      </p>
+      <div class="welcome-actions">
+        <button type="button" class="welcome-ok">Got it</button>
+      </div>
+    `;
+
+    backdrop.appendChild(card);
+
+    // Backdrop click closes — but only when the click lands on the backdrop
+    // itself, not when it bubbles up from the card (so the email/Facebook
+    // links and any in-card click stay safe).
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeWelcome();
+    });
+    card.querySelector(".welcome-close").addEventListener("click", closeWelcome);
+    card.querySelector(".welcome-ok").addEventListener("click", closeWelcome);
+    document.addEventListener("keydown", welcomeEsc);
+
+    root.appendChild(backdrop);
+    document.body.classList.add("modal-open");
+    welcomeEl = backdrop;
+    // Move focus into the dialog so Enter dismisses it on a hardware keyboard
+    card.querySelector(".welcome-ok").focus();
+  }
+
+  function closeWelcome() {
+    if (!welcomeEl) return;
+    welcomeEl.remove();
+    welcomeEl = null;
+    document.body.classList.remove("modal-open");
+    document.removeEventListener("keydown", welcomeEsc);
+  }
+
+  function welcomeEsc(e) {
+    if (e.key === "Escape") closeWelcome();
   }
 
   // ------------------------------------------------------------------

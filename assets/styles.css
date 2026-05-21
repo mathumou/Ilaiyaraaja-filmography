@@ -713,3 +713,91 @@ body.modal-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .modal-backdrop, .modal-card { animation: none; }
 }
+
+/* ---- Welcome notice ---- */
+
+.welcome-card {
+  cursor: default;           /* override .modal-card { cursor: pointer } */
+  padding: 1.5rem 1.25rem 1.25rem;
+  font-family: var(--f-ui);
+  color: var(--ink);
+}
+.welcome-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  background: transparent;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s, color 0.15s;
+}
+.welcome-close:hover {
+  color: var(--deep-red);
+  background: rgba(139, 26, 26, 0.08);
+}
+.welcome-title {
+  font-family: var(--f-ta);
+  font-weight: 700;
+  color: var(--deep-red);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0.25rem 0 0.8rem;
+  padding-right: 2rem;
+}
+.welcome-title-en {
+  font-family: var(--f-en);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 1.15rem;
+  margin-left: 0.3rem;
+}
+.welcome-body {
+  margin: 0.5rem 0;
+  line-height: 1.55;
+  font-size: 1rem;
+}
+.welcome-list {
+  margin: 0.6rem 0 0.8rem;
+  padding-left: 1.2rem;
+  line-height: 1.55;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.welcome-list li { margin: 0.2rem 0; }
+.welcome-card a {
+  color: var(--deep-red);
+  text-decoration: underline;
+  text-decoration-color: var(--brass-dim);
+  text-underline-offset: 3px;
+  font-weight: 600;
+}
+.welcome-card a:hover { color: var(--saffron); }
+.welcome-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.welcome-ok {
+  font-family: var(--f-ui);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.55rem 1.4rem;
+  background: var(--deep-red);
+  color: var(--paper);
+  border: 1px solid var(--deep-red);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.welcome-ok:hover {
+  background: var(--saffron);
+  border-color: var(--saffron);
+}
+.welcome-ok:active { transform: translateY(1px); }
