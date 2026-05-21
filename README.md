@@ -60,13 +60,10 @@ the latest data is always loaded.
 
 ## Fonts
 
-Tamil text is rendered in **Uni Ila.Sundaram** — a Unicode re-encoding
-of C-DAC's GIST Chanakya font, prepared by ila.Sundaram / Jasmin
-Computers. Used here under C-DAC's "non-commercial free usage"
-licence; the source TTF lives at `assets/fonts/UniIlaSundaram-05.ttf`.
-Latin text uses Cormorant Garamond and Inter from Google Fonts. Noto
-Sans Tamil is kept as a safety fallback for any Tamil glyph the
-primary font happens not to cover.
+All fonts are served from Google Fonts under the SIL Open Font Licence:
+**Anek Tamil** for Tamil text (with Noto Sans Tamil kept as a safety
+fallback), **Cormorant Garamond** for English titles, and **Inter**
+for the UI.
 
 ## Credits
 
