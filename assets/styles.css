@@ -355,6 +355,13 @@ a:hover { color: var(--saffron); }
 @media (min-width: 960px)  { .grid { grid-template-columns: repeat(3, 1fr); gap: var(--gap-lg); } }
 @media (min-width: 1280px) { .grid { grid-template-columns: repeat(4, 1fr); } }
 
+/* Phone rotated to landscape — give back the wasted horizontal space.
+   max-height: 500px filters out tablets, which always have height ≥ 600px
+   in landscape. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
 /* Mobile (<640px) — tighten card typography so 2 cols stay readable */
 @media (max-width: 639px) {
   .card { min-height: 220px; }
