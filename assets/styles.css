@@ -2,6 +2,19 @@
    Ilaiyaraaja Filmography · Tamil cinema theme · warm ivory + temple gold
    ===================================================================== */
 
+/* Tamil display font: C-DAC GIST Chanakya, Unicode re-encoding by
+   ila.Sundaram / Jasmin Computers. Used here under the C-DAC
+   "non-commercial free usage" licence. unicode-range keeps the 65 KB
+   file from downloading on pages without Tamil text. */
+@font-face {
+  font-family: "Uni Ila Sundaram";
+  src: url("fonts/UniIlaSundaram-05.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0B80-U+0BFF;
+}
+
 :root {
   /* Palette */
   --ivory:        #FBF3E2;
@@ -20,7 +33,7 @@
 
   /* Typography */
   --f-en:    "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-  --f-ta:    "Noto Sans Tamil", "Latha", system-ui, sans-serif;
+  --f-ta:    "Uni Ila Sundaram", "Noto Sans Tamil", "Latha", system-ui, sans-serif;
   --f-ui:    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* Modular scale (1.25) */

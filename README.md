@@ -58,6 +58,16 @@ To add a poster, set the corresponding film's `"img"` field in
 changes on the next reload — a cache-buster on the JSON fetch ensures
 the latest data is always loaded.
 
+## Fonts
+
+Tamil text is rendered in **Uni Ila.Sundaram** — a Unicode re-encoding
+of C-DAC's GIST Chanakya font, prepared by ila.Sundaram / Jasmin
+Computers. Used here under C-DAC's "non-commercial free usage"
+licence; the source TTF lives at `assets/fonts/UniIlaSundaram-05.ttf`.
+Latin text uses Cormorant Garamond and Inter from Google Fonts. Noto
+Sans Tamil is kept as a safety fallback for any Tamil glyph the
+primary font happens not to cover.
+
 ## Credits
 
 Filmography data was compiled from:
