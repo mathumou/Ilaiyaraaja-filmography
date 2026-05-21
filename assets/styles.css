@@ -346,14 +346,26 @@ a:hover { color: var(--saffron); }
 .grid {
   max-width: var(--maxw);
   margin: 1rem auto 2rem;
-  padding: 0 1rem;
+  padding: 0 0.6rem;
   display: grid;
-  gap: var(--gap);
-  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  grid-template-columns: repeat(2, 1fr);     /* mobile: 2 cols by default */
 }
-@media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); gap: var(--gap); } }
+@media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); padding: 0 1rem; gap: var(--gap); } }
 @media (min-width: 960px)  { .grid { grid-template-columns: repeat(3, 1fr); gap: var(--gap-lg); } }
 @media (min-width: 1280px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+
+/* Mobile (<640px) — tighten card typography so 2 cols stay readable */
+@media (max-width: 639px) {
+  .card { min-height: 220px; }
+  .card-body { padding: 0.7rem 0.7rem 0.8rem; gap: 0.3rem; }
+  .title-ta-card { font-size: 1rem; }
+  .title-en-card { font-size: 0.92rem; }
+  .title-en-card.standalone { font-size: 1rem; }
+  .year-badge { font-size: 0.78rem; padding: 0.12rem 0.5rem; top: 9px; right: 9px; }
+  .chip { font-size: 0.65rem; padding: 0.1rem 0.45rem; }
+  .alt { font-size: 0.72rem; }
+}
 
 .card {
   position: relative;
@@ -366,6 +378,7 @@ a:hover { color: var(--saffron); }
   flex-direction: column;
   overflow: hidden;
   min-height: 280px;
+  cursor: pointer;
 }
 .card::before {
   content: "";
@@ -604,4 +617,92 @@ a:hover { color: var(--saffron); }
 @media (prefers-reduced-motion: reduce) {
   .card { transition: none; }
   .card:hover { transform: none; }
+}
+
+/* =====================================================================
+   Modal (tap-to-expand card)
+   ===================================================================== */
+
+body.modal-open { overflow: hidden; }
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 14, 6, 0.78);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  animation: modal-fade-in 0.18s ease-out;
+}
+
+.modal-card {
+  background: var(--paper);
+  border: 1px solid var(--temple-gold);
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 0;
+  position: relative;
+  cursor: pointer;
+  animation: modal-zoom-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  min-height: 0;
+  /* override the .card hover that exists on the small card */
+  transform: none !important;
+}
+
+.modal-card .poster {
+  aspect-ratio: 2 / 3;
+  max-height: 60vh;
+  background: linear-gradient(160deg, #fff6dc 0%, #f6e4b8 60%, #ecd189 100%);
+}
+.modal-card .poster img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.modal-card .card-body {
+  padding: 1.5rem 1.25rem 2rem;
+  gap: 0.65rem;
+}
+
+.modal-card .title-ta-card { font-size: 1.8rem; line-height: 1.25; }
+.modal-card .title-en-card { font-size: 1.5rem; line-height: 1.2; }
+.modal-card .title-en-card.standalone { font-size: 1.8rem; }
+.modal-card .year-badge {
+  font-size: 1.1rem;
+  padding: 0.3rem 0.9rem;
+  top: 18px;
+  right: 18px;
+}
+.modal-card .chip { font-size: 0.85rem; padding: 0.25rem 0.75rem; }
+.modal-card .alt { font-size: 0.95rem; line-height: 1.5; }
+
+@media (min-width: 768px) {
+  .modal-backdrop { padding: 3vh 3vw; }
+  .modal-card {
+    width: min(540px, 92vw);
+    height: auto;
+    max-height: 94vh;
+    border-radius: var(--r);
+  }
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes modal-zoom-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop, .modal-card { animation: none; }
 }

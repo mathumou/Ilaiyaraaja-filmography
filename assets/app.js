@@ -43,6 +43,7 @@
       populateStats(data);
       populateFilters();
       bindControls();
+      bindCardClicks();
       applyFilter();
 
       observeSentinel();
@@ -185,6 +186,7 @@
   // Filter / sort / render
   // ------------------------------------------------------------------
   function applyFilter() {
+    closeModal();   // re-renders the grid; any open modal would be stale
     const q       = els.q.value.trim().toLowerCase();
     const decade  = els.decade.value ? +els.decade.value : null;
     const year    = els.year.value ? +els.year.value : null;
@@ -258,6 +260,8 @@
     const card = document.createElement("article");
     card.className = "card" + (f.img ? " has-poster" : " no-poster");
     card.setAttribute("role", "listitem");
+    card.tabIndex = 0;
+    card._film = f;
 
     // Poster area
     const poster = document.createElement("div");
@@ -346,6 +350,59 @@
     note.textContent = "♪";
     note.setAttribute("aria-hidden", "true");
     poster.appendChild(note);
+  }
+
+  // ------------------------------------------------------------------
+  // Modal: tap-to-expand card
+  // ------------------------------------------------------------------
+  let modalEl = null;
+
+  function bindCardClicks() {
+    // Delegated click handler on the grid; cards attach via `_film`
+    els.grid.addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card || !els.grid.contains(card)) return;
+      const film = card._film;
+      if (film) openModal(film);
+    });
+    // Keyboard: Enter / Space on a focused card opens the modal too.
+    els.grid.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const card = e.target.closest(".card");
+      if (!card || !els.grid.contains(card)) return;
+      e.preventDefault();
+      const film = card._film;
+      if (film) openModal(film);
+    });
+  }
+
+  function openModal(film) {
+    closeModal();
+    const root = document.getElementById("modal-root") || document.body;
+    const backdrop = document.createElement("div");
+    backdrop.className = "modal-backdrop";
+    backdrop.setAttribute("role", "dialog");
+    backdrop.setAttribute("aria-modal", "true");
+
+    const big = renderCard(film);
+    big.classList.add("modal-card");
+    big.removeAttribute("tabindex");
+    big.setAttribute("role", "document");
+    backdrop.appendChild(big);
+
+    // Single bubbled click closes — works for tap on backdrop OR on card.
+    backdrop.addEventListener("click", closeModal);
+
+    root.appendChild(backdrop);
+    document.body.classList.add("modal-open");
+    modalEl = backdrop;
+  }
+
+  function closeModal() {
+    if (!modalEl) return;
+    modalEl.remove();
+    modalEl = null;
+    document.body.classList.remove("modal-open");
   }
 
   // ------------------------------------------------------------------
